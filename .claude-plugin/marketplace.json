@@ -11,7 +11,7 @@
     {
       "name": "fable-implementation-flow",
       "source": "./fable-implementation-flow",
-      "description": "Build features, apps, games, prototypes, or bug fixes with a Fable-style implementation workflow: infer scope, inspect context, design concrete architecture, implement end to end, validate, debug by causal replay, and summarize clearly.",
+      "description": "Build features, apps, games, prototypes, or bug fixes with a Fable-style implementation workflow: infer scope, inspect context, design concrete architecture, implement end to end, validate, debug by causal replay, and summarize clearly. / Fable 流の実装ワークフローで機能・アプリ・ゲーム・プロトタイプ・バグ修正を進める: スコープ推定、コンテキスト調査、具体的なアーキテクチャ設計、エンドツーエンド実装、検証、因果リプレイによるデバッグ、明快な要約までを一気通貫で行う。",
       "version": "1.0.0",
       "author": {
         "name": "nogu"

@@ -1,5 +1,7 @@
 # fable-implementation-flow
 
+English | [日本語](./README.ja.md)
+
 Build software features, apps, games, prototypes, or bug fixes with a **Fable-style implementation workflow** — drive a broad request all the way from brief to verified, working code.
 
 ## Overview
