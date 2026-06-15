@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fable Implementation Flow"
+  short_description: "Plan, build, verify in Fable style"
+  default_prompt: "Use $fable-implementation-flow to build this feature from brief through verification."

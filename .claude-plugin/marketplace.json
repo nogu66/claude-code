@@ -1,0 +1,29 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "nogu-marketplace",
+  "version": "1.0.0",
+  "description": "nogu's personal Claude Code plugin marketplace",
+  "owner": {
+    "name": "nogu66",
+    "email": "ezochi66@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "fable-implementation-flow",
+      "source": "./fable-implementation-flow",
+      "description": "Build features, apps, games, prototypes, or bug fixes with a Fable-style implementation workflow: infer scope, inspect context, design concrete architecture, implement end to end, validate, debug by causal replay, and summarize clearly.",
+      "version": "1.0.0",
+      "author": {
+        "name": "nogu"
+      },
+      "keywords": [
+        "implementation",
+        "workflow",
+        "feature-development",
+        "verification",
+        "fable",
+        "skill"
+      ]
+    }
+  ]
+}

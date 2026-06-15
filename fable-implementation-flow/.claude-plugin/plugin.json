@@ -1,0 +1,19 @@
+{
+  "name": "fable-implementation-flow",
+  "version": "1.0.0",
+  "description": "Build features, apps, games, prototypes, or bug fixes with a Fable-style implementation workflow: infer scope, inspect context, design concrete architecture, implement end to end, validate, debug by causal replay, and summarize clearly.",
+  "author": {
+    "name": "nogu66",
+    "email": "ezochi66@gmail.com"
+  },
+  "repository": "https://github.com/nogu66/claude-code",
+  "license": "MIT",
+  "keywords": [
+    "implementation",
+    "workflow",
+    "feature-development",
+    "verification",
+    "fable",
+    "skill"
+  ]
+}
