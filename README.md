@@ -44,6 +44,36 @@ Then in Claude Code:
 |--------|-------------|
 | [fable-implementation-flow](fable-implementation-flow/) | Build features, apps, games, prototypes, or bug fixes with a Fable-style implementation workflow — from brief to verified, working code. |
 
+## Projects
+
+| Project | Description |
+|---------|-------------|
+| [ptcg-ai-battle](ptcg-ai-battle/) | Kaggle [Pokemon TCG AI Battle Challenge](https://www.kaggle.com/competitions/pokemon-tcg-ai-battle) 用デッキ & AI エージェント。Mega Lucario ex 格闘デッキ。詳細は [ptcg-ai-battle/README.md](ptcg-ai-battle/README.md) を参照。 |
+
+### ptcg-ai-battle クイックリファレンス
+
+```bash
+cd ptcg-ai-battle
+
+# デッキ編集
+vim deck.csv                    # カードID を1行1枚、計60行
+
+# カードID 検索
+grep "カード名" data/JP_Card_Data.csv
+grep "Card Name" data/EN_Card_Data.csv
+
+# 提出ファイル作成
+tar -czvf submission.tar.gz main.py deck.csv cg/
+
+# Kaggle に提出
+source .venv/bin/activate
+export KAGGLE_TOKEN="KGAT_xxxxx"
+kaggle competitions submit pokemon-tcg-ai-battle -f submission.tar.gz -m "説明"
+
+# 提出結果確認
+kaggle competitions submissions pokemon-tcg-ai-battle
+```
+
 ## License
 
 MIT
