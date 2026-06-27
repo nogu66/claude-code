@@ -1,0 +1,19 @@
+{
+  "name": "nogu-brand-color",
+  "version": "1.0.0",
+  "description": "nogu のブランドカラーパレット。デザイン系タスク全般で参照するカラーガイドライン。 / Brand color palette for nogu. Reference this guideline for all design tasks.",
+  "author": {
+    "name": "nogu66",
+    "email": "ezochi66@gmail.com"
+  },
+  "repository": "https://github.com/nogu66/claude-code",
+  "license": "MIT",
+  "keywords": [
+    "brand",
+    "color",
+    "design",
+    "palette",
+    "ui",
+    "skill"
+  ]
+}
