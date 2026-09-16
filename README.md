@@ -43,6 +43,7 @@ Then in Claude Code:
 | Plugin | Description |
 |--------|-------------|
 | [fable-implementation-flow](fable-implementation-flow/) | Build features, apps, games, prototypes, or bug fixes with a Fable-style implementation workflow — from brief to verified, working code. |
+| [create-mods](create-mods/) | Reference and workflow for Claude Mods — plugins built on Claude Code's function hooks ($/e/next, the authority chain, the full $ API/event list, UI rendering, and a proven architecture pattern). |
 
 ## Projects
 

@@ -1,0 +1,18 @@
+{
+  "name": "create-mods",
+  "version": "1.0.0",
+  "description": "Reference and workflow for Claude Mods — plugins built on Claude Code's function hooks. Covers the $/e/next primitives, the five-tier authority chain, the full $ API and event list, UI rendering, and the cc-arcade-derived architecture pattern for building one. / Claude Code の function hooks 上で動くプラグイン「Claude Mods」のリファレンスとワークフロー。$/e/next の基本形、5層権限チェーン、$ APIとイベントの全体表、UI描画、cc-arcade由来のアーキテクチャパターンを網羅する。",
+  "author": {
+    "name": "nogu66",
+    "email": "ezochi66@gmail.com"
+  },
+  "repository": "https://github.com/nogu66/claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-mods",
+    "function-hooks",
+    "plugin-development",
+    "claude-code",
+    "skill"
+  ]
+}
