@@ -11,9 +11,13 @@ description: Use when the user mentions "Claude Mods", asks what Claude Mods are
 TypeScript hook system. "Function hook" is still the engineering term for the underlying
 primitive; a **mod is just a plugin that uses function hooks**, nothing more.
 
-Sources: GitHub issue [anthropics/claude-code#91870](https://github.com/anthropics/claude-code/issues/91870)
+Sources, most authoritative first: the official
+[`anthropics/claude-code/tree/main/mods`](https://github.com/anthropics/claude-code/tree/main/mods)
+folder — source for the three mods (`sec-default`, `diff`, `telemetry`) that actually ship in the
+binary, including their tests and testing kit; GitHub issue
+[anthropics/claude-code#91870](https://github.com/anthropics/claude-code/issues/91870)
 (community update thread — still iterating, treat exact APIs/affordances as subject to change;
-re-check the issue before relying on specifics) and Anthropic's official "$ cheat sheet"
+re-check the issue before relying on specifics); and Anthropic's official "$ cheat sheet"
 (2026-09-09). Run `/plugin-types` in a live session for the authoritative, current type
 definitions (`.claude/types/claude-code.d.ts`) — everything below can drift.
 
@@ -111,6 +115,63 @@ See `references/api-reference.md` for the complete `$` noun/verb table and the d
 of every `on(...)` event (with ◆/◇ markers for whether it has a core side effect). Load it
 before wiring a mod to anything beyond `tool.call`/`ui.render`.
 
+## Official Reference Mods
+
+The three mods that actually ship inside the Claude Code binary — read these before a
+third-party example; they're the primary source, not an inspiration:
+
+| Mod | What it does | Seated |
+|---|---|---|
+| [`sec-default`](https://github.com/anthropics/claude-code/tree/main/mods/sec-default) | Keeps an organization's classic hooks, prompt content, managed settings and tool policy out of reach of the plugins a person installs; adds no policy of its own. | Outermost, on a machine with managed settings or for a Team/Enterprise org, unless managed `prependPlugins` says otherwise |
+| [`diff`](https://github.com/anthropics/claude-code/tree/main/mods/diff) | `/diff`: the session's uncommitted changes in a pane beside the transcript, refreshed as Claude edits files and runs commands. | Built in |
+| [`telemetry`](https://github.com/anthropics/claude-code/tree/main/mods/telemetry) | Adds `$.telemetry` (`.log`, `.mark`) in the `engine.create` fold so a plugin can record an event as a first-party analytics row; sends nothing wherever Claude Code's analytics are off. | Built in |
+
+Read one running from source:
+
+```sh
+claude --plugin-dir mods/diff
+```
+
+Each is a complete plugin (`.claude-plugin/plugin.json`, `hooks/hooks.json`, TypeScript under
+`hooks/`) worth reading end to end for real patterns: `diff` hooking ten distinct events each
+thin and single-purpose rather than one monolith; `sec-default` having exactly three moves
+(`next.to`, `{ deny }`, `next(e)`) and nothing else; `telemetry` failing closed on every
+env-controlled opt-out and refusing anything that isn't a snake_case token / finite number /
+boolean / Choice before it reaches a row.
+
+## Composing Mods: Noun Contracts
+
+A mod that adds a noun to `$` in the `engine.create` fold owns that noun's types, kept in one
+place: its `types/index.d.ts` — a declaration file with no imports that exports the types the
+noun is made of (each named for the noun) and declares the noun on `EngineInterface` in
+`claude-code` (`telemetry/types/index.d.ts` exports `Telemetry`, `TelemetryLogEntry`,
+`TelemetryMarkEntry`, and declares `$.telemetry`).
+
+```javascript
+on("engine.create", async ($, e, next) => ({ ...await next(e), telemetry }))
+```
+
+Rules that keep the contract from drifting:
+
+- **The contract is the only declaration of the noun.** The mod's own hooks import its types
+  from the folder (`import type { Telemetry } from '../types'`), and the value its
+  `engine.create` hook returns is checked against `EngineInterface['telemetry']`.
+- **A mod that calls another's noun imports the contract, never copies it.** `mods/tsconfig.json`
+  includes `*/types/**/*.d.ts`, so `$.telemetry.log(…)` in `diff` types against `telemetry`'s
+  contract as it stands.
+- **Degrade gracefully when the noun is optional.** `diff` calls `$.telemetry.log`/`.mark`, but
+  where `telemetry` isn't loaded the noun simply doesn't exist and the rows are dropped —
+  nothing else about `diff` changes. Treat an optional dependency's absence as "feature off," not
+  an error to throw on.
+- **Testing a caller:** seat a provider for the noun — an inline plugin whose `engine.create`
+  hook adds it — and answer its calls the way the test answers the engine's:
+  `on('telemetry.log', ($, e) => ({ value: undefined }))`. With no provider loaded, the `$` build
+  refuses the hook, naming the noun nobody provides. See `references/testing.md`.
+
+A plugin outside this repository that depends on a mod's noun points its tsconfig `include` at
+that mod's `types/` folder for now; once the engine writes the contracts of the plugins a session
+has installed, `/plugin-types` will put them beside `claude-code.d.ts` and the include goes away.
+
 ## UI Rendering
 
 See `references/ui-rendering.md` for the `ui.render` component/element lists, pane / redraw /
@@ -186,6 +247,14 @@ Quality rules worth copying directly:
 - Keep the hooks module itself free of game/business rules; it should only wire events to the
   pure logic and surface modules.
 
+## Testing
+
+See `references/testing.md` for the official testing kit (`claude-code/testing`: `describe`,
+`expect`, `mock`, `test`, `tier`), `claude plugin test <path>`, mock env/store/clock, and how a
+test seats a provider plugin for a noun contract dependency. cc-arcade's `bun test` above tests
+pure logic modules directly (no `$` involved); the official kit is for testing the hooks layer
+itself against a mocked `$`.
+
 ## Implementation Ideas
 
 See `references/implementation-ideas.md` for a categorized brainstorm — security/governance,
@@ -208,6 +277,13 @@ claude plugin validate .                              # checks the marketplace m
 Type-checking needs early-access types: run `/plugin-types` in a session with function hooks on
 (writes `.claude/types/`), then `tsc`. Edits hot-reload into a running session; if a reload fails
 partway, restart the session rather than trusting the half-applied state.
+
+The official mods repo additionally runs, from its own root (see `references/testing.md`):
+
+```sh
+claude plugin test mods/<name>       # runs tests/ against a mocked $, per mod
+tsc -p mods/tsconfig.json            # typechecks every mod's hooks and tests together
+```
 
 ## Manifest Files
 
