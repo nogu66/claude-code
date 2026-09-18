@@ -1,0 +1,6 @@
+{
+  "description": "git-ops: /git draws a clickable git panel above the prompt (AbovePrompt) — branch buttons with a filter box, digit hotkeys and a confirmation before checkout; pull/push/fetch, stage-all and commit. Text subcommands (status|branch|checkout|back|pull|push|fetch|stage|commit) work standalone. Runs plain `git` via $.process.run (argv array, not a shell string); no force-push, reset, or rebase exposed. Needs CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1; builds without function hooks ignore the modules key.",
+  "modules": [
+    "./register.tsx"
+  ]
+}

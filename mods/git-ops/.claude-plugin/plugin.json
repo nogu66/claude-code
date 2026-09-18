@@ -1,0 +1,12 @@
+{
+  "name": "git-ops",
+  "version": "0.1.0",
+  "description": "A Claude Mod (function-hooks plugin): /git draws a clickable panel above the prompt for everyday git — pick a branch with a button (or filter + Enter, or a digit key), confirm, and it checks out; pull/push/fetch, stage-all and commit are buttons too. No force-push, reset or rebase exposed. / Claude Mod（function hooks プラグイン）。/git でプロンプトの上にクリック操作できる git パネルを表示。ブランチをボタン（絞り込み+Enter、数字キーも可）で選び、確認してからチェックアウト。pull/push/fetch、stage all、commit もボタンで実行。force-push・reset・rebase は意図的に非対応。",
+  "author": {
+    "name": "nogu66",
+    "email": "ezochi66@gmail.com"
+  },
+  "repository": "https://github.com/nogu66/claude-code",
+  "license": "MIT",
+  "keywords": ["claude-mods", "function-hooks", "git", "checkout", "above-prompt", "claude-code"]
+}
