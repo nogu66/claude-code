@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test"
 import {
   buildBranchListArgv,
   buildStatusArgv,
+  exitCodeOf,
   filterBranches,
   formatCheckoutHint,
   resolveCheckoutTarget,
@@ -9,6 +10,7 @@ import {
   formatGitFailure,
   formatStatusHeader,
   formatUsage,
+  isGitFailure,
   isValidBranchName,
   parseBranchListOutput,
   parseGitCommand,
@@ -507,5 +509,19 @@ describe("back", () => {
   test("parses and maps to git checkout -", () => {
     expect(parseGitCommand("back").command).toEqual({ kind: "back" })
     expect(toArgv({ kind: "back" })).toEqual(["checkout", "-"])
+  })
+})
+
+describe("exitCodeOf / isGitFailure", () => {
+  test("reads exitCode, falls back to code", () => {
+    expect(exitCodeOf({ exitCode: 1, stdout: "", stderr: "" })).toBe(1)
+    expect(exitCodeOf({ code: 128 })).toBe(128)
+    expect(exitCodeOf({ stdout: "" })).toBeUndefined()
+    expect(exitCodeOf(undefined)).toBeUndefined()
+  })
+  test("a non-zero status is a failure, zero or unknown is not", () => {
+    expect(isGitFailure({ exitCode: 1 })).toBe(true)
+    expect(isGitFailure({ exitCode: 0 })).toBe(false)
+    expect(isGitFailure({})).toBe(false)
   })
 })

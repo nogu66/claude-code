@@ -135,6 +135,21 @@ export function toArgv(command: GitCommand): string[] {
   }
 }
 
+// `$.process.run` reports the exit status as `exitCode`; older builds (and our first version)
+// used `code`. Read either — a status we fail to read makes every git failure look like success.
+export function exitCodeOf(result: unknown): number | undefined {
+  if (!result || typeof result !== "object") return undefined
+  const r = result as { exitCode?: unknown; code?: unknown }
+  if (typeof r.exitCode === "number") return r.exitCode
+  if (typeof r.code === "number") return r.code
+  return undefined
+}
+
+export function isGitFailure(result: unknown): boolean {
+  const code = exitCodeOf(result)
+  return code !== undefined && code !== 0
+}
+
 export function formatGitFailure(command: GitCommand, code: number | undefined, stderr: string, stdout: string): string {
   const detail = (stderr || stdout || "").trim() || "(no output)"
   return `git-ops: git failed on \`${command.kind}\` (exit ${code ?? "?"})\n${detail}`

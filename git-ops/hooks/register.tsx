@@ -26,12 +26,14 @@ import type { Register } from "claude-code"
 import {
   buildBranchListArgv,
   buildStatusArgv,
+  exitCodeOf,
   filterBranches,
   formatBranchRowLabel,
   formatCheckoutHint,
   formatGitFailure,
   formatStatusHeader,
   formatUsage,
+  isGitFailure,
   parseBranchListOutput,
   parseGitCommand,
   parseStatusOutput,
@@ -67,7 +69,7 @@ let commitDraft = ""
 let actionBusy: string | undefined
 let actionError: string | undefined
 
-function runFailureText(result: { code?: number; stderr?: string; stdout?: string } | undefined, fallback: string) {
+function runFailureText(result: { stderr?: string; stdout?: string } | undefined, fallback: string) {
   return (result?.stderr || result?.stdout || fallback).trim()
 }
 
@@ -75,7 +77,7 @@ async function refreshAll($: any): Promise<void> {
   loadingRefresh = true
   try {
     const branchResult = await $.process.run(["git", ...buildBranchListArgv()])
-    if (branchResult && typeof branchResult.code === "number" && branchResult.code !== 0) {
+    if (isGitFailure(branchResult)) {
       loadError = runFailureText(branchResult, "not a git repository (or git branch failed)")
       branches = []
       status = undefined
@@ -85,7 +87,7 @@ async function refreshAll($: any): Promise<void> {
     branches = branchParsed.ok ? branchParsed.value : []
 
     const statusResult = await $.process.run(["git", ...buildStatusArgv()])
-    if (statusResult && typeof statusResult.code === "number" && statusResult.code !== 0) {
+    if (isGitFailure(statusResult)) {
       loadError = runFailureText(statusResult, "git status failed")
       status = undefined
       return
@@ -114,8 +116,8 @@ async function runAction($: any, command: GitCommand, busyLabel: string): Promis
   $.ui.invalidate("ui.render")
   try {
     const result = await $.process.run(["git", ...toArgv(command)])
-    if (result && typeof result.code === "number" && result.code !== 0) {
-      actionError = formatGitFailure(command, result.code, result.stderr ?? "", result.stdout ?? "")
+    if (isGitFailure(result)) {
+      actionError = formatGitFailure(command, exitCodeOf(result), result.stderr ?? "", result.stdout ?? "")
       return
     }
     if (command.kind === "commit") commitDraft = ""
@@ -156,7 +158,7 @@ export const register: Register = (on) => {
         $.ui.invalidate("ui.render")
       }
       return {
-        text: "Git panel showing above the prompt — click a branch to check it out, or use pull/push/fetch/stage/commit · /git stop hides it",
+        text: "Git panel showing above the prompt — ctrl+x tab moves the keys into it (Tab/arrows walk, Enter presses, Esc returns to the prompt); clicks work in the fullscreen terminal · /git stop hides it",
       }
     }
     if (lower === "stop") {
@@ -174,9 +176,8 @@ export const register: Register = (on) => {
 
     try {
       const result = await $.process.run(["git", ...toArgv(command)])
-      const code = result?.code
-      if (typeof code === "number" && code !== 0) {
-        return { text: formatGitFailure(command, code, result?.stderr ?? "", result?.stdout ?? "") }
+      if (isGitFailure(result)) {
+        return { text: formatGitFailure(command, exitCodeOf(result), result?.stderr ?? "", result?.stdout ?? "") }
       }
       if (open) {
         await refreshAll($)
@@ -440,6 +441,8 @@ export const register: Register = (on) => {
         {tabRow}
         {notices}
         {body}
+        {/* keys stay with the prompt until the person moves them here; without this the panel looks dead */}
+        <Text dimColor>ctrl+x tab: focus this panel · Tab/arrows: move · Enter: press · Esc: back to prompt</Text>
         {await next(e)}
       </Box>
     )

@@ -6,6 +6,8 @@
 上にクリック操作できる git パネルを表示します。ブランチをボタンで選び、確認して OK すると
 チェックアウト。pull / push / fetch、stage all、commit も git コマンドを打たずに実行できます。
 
+![git-ops のデモ: /git でパネルを開き、ブランチを選んで確認、チェックアウト](assets/demo.gif)
+
 ```
 Git · main (origin/main, ahead 4)              ↓ pull  ↑ push  fetch  refresh
 ▸ branches (12)     changes (13)
@@ -42,7 +44,7 @@ pull、push、fetch、stage all、commit。force-push、reset、rebase、clean �
 
 ```sh
 git clone https://github.com/nogu66/claude-code.git
-cd claude-code/mods/git-ops
+cd claude-code/git-ops
 claude --plugin-dir .        # ここの .claude/settings.json が function hooks を有効にします
 ```
 
@@ -51,6 +53,11 @@ claude --plugin-dir .        # ここの .claude/settings.json が function hook
 ## パネル
 
 `/git`（または `/git show`）で表示、`/git stop` で非表示。
+
+**キーはまずパネルに移してから。** パネルを開いただけでは、キー入力はいつものプロンプトに届きます
+（絞り込み欄に打ったつもりの文字や数字キーは、パネルには届きません）。**`ctrl+x tab`** でパネルに
+フォーカスを移し、Tab／矢印で移動、Enter で押下、Esc でプロンプトに戻ります。マウスクリックは、
+クリックを報告するフルスクリーン表示のターミナルでのみ効きます。
 
 - **タイトル行** — 左に現在のブランチ・upstream・ahead/behind、右に `↓ pull`、`↑ push`、
   `fetch`、`refresh`。現在のブランチの既存の upstream に対して実行します。

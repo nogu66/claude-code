@@ -6,6 +6,8 @@ A **Claude Mod** (a Claude Code plugin built on function hooks): `/git` draws a 
 panel in the band above the prompt. Pick a branch with a button, confirm, and it checks out —
 plus pull / push / fetch, stage-all and commit, without typing a git command.
 
+![git-ops demo: /git opens the panel, pick a branch, confirm, checked out](assets/demo.gif)
+
 ```
 Git · main (origin/main, ahead 4)              ↓ pull  ↑ push  fetch  refresh
 ▸ branches (12)     changes (13)
@@ -42,7 +44,7 @@ Or try it without installing:
 
 ```sh
 git clone https://github.com/nogu66/claude-code.git
-cd claude-code/mods/git-ops
+cd claude-code/git-ops
 claude --plugin-dir .        # .claude/settings.json here turns function hooks on
 ```
 
@@ -51,6 +53,11 @@ Then run `/git` inside any git repository.
 ## The panel
 
 `/git` (or `/git show`) shows the panel; `/git stop` hides it.
+
+**Move the keys into the panel first.** Opening the panel leaves your keystrokes with the normal
+prompt — text meant for the filter box, or a digit hotkey, never reaches the panel. Press
+**`ctrl+x tab`** to focus it; then Tab/arrows move, Enter presses, Esc returns to the prompt.
+Mouse clicks only work where the terminal reports them (the fullscreen layout).
 
 - **Title row** — current branch, upstream and ahead/behind on the left; `↓ pull`, `↑ push`,
   `fetch`, `refresh` on the right. They act on the current branch's existing upstream.
