@@ -1,0 +1,11 @@
+{
+  "name": "agent-aquarium",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "preview": "bun run tools/preview.ts",
+    "validate": "claude plugin validate ."
+  }
+}

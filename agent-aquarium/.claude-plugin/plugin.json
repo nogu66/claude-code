@@ -1,0 +1,28 @@
+{
+  "name": "agent-aquarium",
+  "version": "0.1.0",
+  "description": "A Claude Mod (function-hooks plugin): /aquarium draws the session as a fish tank in a pane with kitty graphics — the main loop is the parent fish, each subagent a baby that is born and swims off, and every tool call an animation (Read feeds, Edit nests, Bash dashes, an error sinks); the water level follows the context window. Half-block fallback where the terminal shows no images. / Claude Mod（function hooks プラグイン）。/aquarium でセッションを Kitty graphics の水槽として pane に描画。メインループが親魚、サブエージェントは誕生して泳ぎ去る稚魚、ツール呼び出しは魚の動き（Read で餌、Edit で巣、Bash でダッシュ、エラーで沈む）、水位はコンテキスト使用率に連動。画像非対応端末では半ブロック描画に自動切替。",
+  "author": {
+    "name": "nogu66",
+    "email": "ezochi66@gmail.com"
+  },
+  "repository": "https://github.com/nogu66/claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-mods",
+    "function-hooks",
+    "aquarium",
+    "kitty-graphics",
+    "subagents",
+    "pane",
+    "claude-code"
+  ],
+  "userConfig": {
+    "fps": {
+      "type": "number",
+      "title": "Frames per second",
+      "description": "How often the tank is redrawn (2-20). Lower it if the terminal stutters; /aquarium fps N changes it for the session.",
+      "default": 12
+    }
+  }
+}

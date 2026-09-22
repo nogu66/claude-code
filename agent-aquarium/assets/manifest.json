@@ -1,0 +1,123 @@
+{
+  "cols": 6,
+  "states": {
+    "swim": {
+      "row": 0,
+      "frames": 6
+    },
+    "eat": {
+      "row": 1,
+      "frames": 4
+    },
+    "dash": {
+      "row": 2,
+      "frames": 4
+    },
+    "error": {
+      "row": 3,
+      "frames": 4
+    },
+    "spawn": {
+      "row": 4,
+      "frames": 4
+    },
+    "exit": {
+      "row": 5,
+      "frames": 4
+    }
+  },
+  "note": "frame rect = (col*w, row*h, w, h). Sheets are pre-flipped for left.",
+  "sheets": {
+    "parent_right": {
+      "file": "fish_parent_right.png",
+      "w": 160,
+      "h": 80
+    },
+    "parent_left": {
+      "file": "fish_parent_left.png",
+      "w": 160,
+      "h": 80
+    },
+    "blue_right": {
+      "file": "fish_blue_right.png",
+      "w": 96,
+      "h": 48
+    },
+    "blue_left": {
+      "file": "fish_blue_left.png",
+      "w": 96,
+      "h": 48
+    },
+    "orange_right": {
+      "file": "fish_orange_right.png",
+      "w": 96,
+      "h": 48
+    },
+    "orange_left": {
+      "file": "fish_orange_left.png",
+      "w": 96,
+      "h": 48
+    },
+    "green_right": {
+      "file": "fish_green_right.png",
+      "w": 96,
+      "h": 48
+    },
+    "green_left": {
+      "file": "fish_green_left.png",
+      "w": 96,
+      "h": 48
+    },
+    "purple_right": {
+      "file": "fish_purple_right.png",
+      "w": 96,
+      "h": 48
+    },
+    "purple_left": {
+      "file": "fish_purple_left.png",
+      "w": 96,
+      "h": 48
+    }
+  },
+  "props": {
+    "file": "props.png",
+    "rects": {
+      "bubble_l": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "bubble_m": [
+        16,
+        0,
+        12,
+        12
+      ],
+      "bubble_s": [
+        28,
+        0,
+        8,
+        8
+      ],
+      "food": [
+        36,
+        0,
+        8,
+        8
+      ],
+      "nest": [
+        52,
+        0,
+        40,
+        16
+      ]
+    }
+  },
+  "seaweed": {
+    "file": "seaweed.png",
+    "w": 32,
+    "h": 96,
+    "frames": 4
+  }
+}
